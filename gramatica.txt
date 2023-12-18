@@ -1,0 +1,220 @@
+/**
+ * Definicion de tokens terminales y no terminales
+ */
+
+/* Terminales */
+
+// Operadores aritméticos binarios
+terminal RUDOLPH; // +
+terminal  DASHER; // -
+terminal  DANCER; // /
+terminal  PRANCER; // // (division entera)
+terminal  VIXEN; // *
+terminal  COMET; // ~
+terminal CUPID; // **
+// Operadores aritméticos unarios
+terminal  GRINCH; // ++
+terminal  QUIEN; // --
+// Operadores relacionales
+terminal  HERMEY; // <
+terminal  BUDDY; // <=
+terminal  JINGLE; // >
+terminal JANGLE; // >=
+terminal  PEPPERMINT; // ==
+terminal  WUNORSE; // !=
+// Operadores lógicos
+terminal  MELCHOR; // ^
+terminal  GASPAR; // #
+terminal BALTASAR; // !
+
+// Tipos
+terminal String PERSONA; // identificador
+terminal Integer SANTACLAUS; // int
+terminal Double PERENOEL; // float
+terminal Boolean FATHERCHRISTMAS; // boolean
+terminal Character KRISKRINGLE; // char
+terminal String DEDMOROZ; // string
+terminal Integer[] PAPANOEL; // array
+terminal Integer L_SANTACLAUS; // literal int
+terminal Double L_PERENOEL; // literal float
+terminal Boolean L_FATHERCHRISTMAS; // literal boolean
+terminal Character L_KRISKRINGLE; // literal char
+terminal String L_DEDMOROZ; // literal string
+terminal Integer[] L_PAPANOEL; // literal array
+
+// Parentesis
+terminal Integer ABRECUENTO; // (
+terminal Integer CIERRECUENTO; // )
+terminal Integer ABREEMPAQUE; // [
+terminal Integer CIERREEMPAQUE; // ]
+terminal Integer ABREREGALO; // {
+terminal Integer CIERRAREGALO; // }
+
+// Estructuras de control
+terminal Integer ELFO;//if
+terminal Integer HADA;//else
+terminal Integer DUENDE;//else
+terminal Integer ENVUELVE;//for
+terminal Integer HACE;//do
+terminal Integer REVISA;//until
+terminal Integer ENVIA;//return
+terminal Integer CORTA;//break
+
+// Entrada y salida
+terminal Integer NARRA;//print
+terminal Integer ESCUCHA;//read 
+
+// Fin de expresión
+terminal  FINREGALO; // |
+
+// Lexema separador
+terminal Integer COMA; //,
+
+// Asignación
+terminal Integer ENTREGA;//<=
+
+// Comentarios
+// son ignorados por el compilador
+
+// Funciones
+terminal Integer MAIN; //main
+terminal Integer REGALO; // definicion de funcion 
+
+//-------------------------------------------------------------------------------------- NO Terminales
+non terminal navidad; // Símbolo inicial
+non terminal bolsanavidena; // produccion para funciones
+non terminal regalo; // produccion para expresiones
+non terminal regaloprin; // produccion para expresiones aritméticas
+non terminal regalocomprado; // produccion para expresiones relacionales
+non terminal regalomanual; // produccion para expresiones lógicas
+
+non terminal regalopersonalizado; // produccion para expresiones unarias
+non terminal regaloespecial; // produccion para expresiones de asignacion
+
+
+
+//-------------------------------------------------------------------------------------- PRECEDENCIA
+precedence left RUDOLPH, DASHER; // suma y resta
+precedence left DANCER, PRANCER; // division y division entera
+precedence left VIXEN, COMET; // multiplicacion y modulo
+precedence left GRINCH, QUIEN; // incremento y decremento
+precedence left HERMEY, BUDDY, JINGLE, JANGLE, PEPPERMINT, WUNORSE; // operadores relacionales
+precedence left MELCHOR, GASPAR; // operadores lógicos
+precedence left BALTASAR; // operador lógico not
+precedence left ABRECUENTO, CIERRECUENTO; // parentesis
+precedence left ABREEMPAQUE, CIERREEMPAQUE; // corchetes
+precedence left ABREREGALO, CIERRAREGALO; // llaves
+precedence left ELFO, HADA, DUENDE, ENVUELVE, HACE, REVISA, ENVIA, CORTA; // estructuras de control
+precedence left NARRA, ESCUCHA; // entrada y salida
+precedence left FINREGALO; // fin de expresión
+precedence left COMA; // lexema separador
+precedence left ENTREGA; // asignacion
+precedence left MAIN; // main
+precedence left REGALO; // definicion de funcion
+
+//-------------------------------------------------------------------------------------- PRODUCCIONES
+/* Símbolo inicial y producciones gramaticales*/
+start with navidad;
+
+/* Producciones gramaticales */
+
+navidad ::= bolsanavidena
+
+bolsanavidena ::= regalo
+               | bolsanavidena regalo
+
+regalo ::= regaloprin
+         | regalocomprado
+         | regalomanual
+         | regalopersonalizado
+         | regaloespecial
+
+regaloprin ::= regaloprin RUDOLPH regalocomprado
+            | regalocomprado
+
+regalocomprado ::= regalocomprado DASHER regalomanual
+               | regalomanual
+
+regalomanual ::= regalomanual DANCER regalopersonalizado
+              | regalopersonalizado
+
+regalopersonalizado ::= GRINCH regaloespecial
+                   | QUIEN regaloespecial
+
+regaloespecial ::= regaloespecial HERMEY regalo
+               | regalo
+
+regaloespecial ::= regaloespecial BUDDY regalo
+               | regalo
+
+regaloespecial ::= regaloespecial JINGLE regalo
+               | regalo
+
+regaloespecial ::= regaloespecial JANGLE regalo
+               | regalo
+
+regaloespecial ::= regaloespecial PEPPERMINT regalo
+               | regalo
+
+regaloespecial ::= regaloespecial WUNORSE regalo
+               | regalo
+
+regaloespecial ::= regalo
+
+regalomanual ::= MELCHOR regalomanual
+             | GASPAR regalomanual
+             | BALTASAR regalo
+             | regalo
+
+regalomanual ::= ABRECUENTO regalo CIERRECUENTO
+             | ABREEMPAQUE regalo CIERREEMPAQUE
+             | ABREREGALO regalo CIERRAREGALO
+
+regaloespecial ::= ELFO regalo HADA regalo DUENDE regalo
+               | ENVUELVE regalo HACE regalo REVISA regalo ENVIA regalo CORTA regalo
+
+regaloespecial ::= NARRA regalo
+               | ESCUCHA regalo
+
+regalo ::= FINREGALO
+
+regaloespecial ::= COMA regalo
+
+regaloespecial ::= ENTREGA regalo
+
+regalo ::= MAIN regalo
+         | REGALO regalo
+         | PERSONA regalo
+         | SANTACLAUS regalo
+         | PERENOEL regalo
+         | FATHERCHRISTMAS regalo
+         | KRISKRINGLE regalo
+         | DEDMOROZ regalo
+         | PAPANOEL regalo
+         | L_SANTACLAUS regalo
+         | L_PERENOEL regalo
+         | L_FATHERCHRISTMAS regalo
+         | L_KRISKRINGLE regalo
+         | L_DEDMOROZ regalo
+         | L_PAPANOEL regalo
+         | copodenieve
+
+copodenieve ::= REGALO
+         | PERSONA
+         | SANTACLAUS
+         | PERENOEL
+         | FATHERCHRISTMAS
+         | KRISKRINGLE
+         | DEDMOROZ
+         | PAPANOEL
+         | L_SANTACLAUS
+         | L_PERENOEL
+         | L_FATHERCHRISTMAS
+         | L_KRISKRINGLE
+         | L_DEDMOROZ
+         | L_PAPANOEL
+
+
+regalo ::= ABRECUENTO regalo CIERRECUENTO
+         | ABREEMPAQUE regalo CIERREEMPAQUE
+         | ABREREGALO regalo CIERRAREGALO
