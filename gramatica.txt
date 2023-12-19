@@ -17,7 +17,7 @@ terminal  GRINCH; // ++
 terminal  QUIEN; // --
 // Operadores relacionales
 terminal  HERMEY; // <
-terminal  BUDDY; // <=
+terminal  BUDDY; // =<
 terminal  JINGLE; // >
 terminal JANGLE; // >=
 terminal  PEPPERMINT; // ==
@@ -78,7 +78,8 @@ terminal Integer ENTREGA;//<=
 
 // Funciones
 terminal Integer MAIN; //main
-terminal Integer REGALO; // definicion de funcion 
+//terminal Integer REGALO; // definicion de funcion 
+terminal Integer FUNCTION; // definicion de funcion 
 
 //-------------------------------------------------------------------------------------- NO Terminales
 non terminal navidad; // Símbolo inicial
@@ -123,67 +124,13 @@ navidad ::= bolsanavidena
 bolsanavidena ::= regalo
                | bolsanavidena regalo
 
-regalo ::= regaloprin
-         | regalocomprado
-         | regalomanual
-         | regalopersonalizado
-         | regaloespecial
-
-regaloprin ::= regaloprin RUDOLPH regalocomprado
-            | regalocomprado
-
-regalocomprado ::= regalocomprado DASHER regalomanual
-               | regalomanual
-
-regalomanual ::= regalomanual DANCER regalopersonalizado
-              | regalopersonalizado
-
-regalopersonalizado ::= GRINCH regaloespecial
-                   | QUIEN regaloespecial
-
-regaloespecial ::= regaloespecial HERMEY regalo
-               | regalo
-
-regaloespecial ::= regaloespecial BUDDY regalo
-               | regalo
-
-regaloespecial ::= regaloespecial JINGLE regalo
-               | regalo
-
-regaloespecial ::= regaloespecial JANGLE regalo
-               | regalo
-
-regaloespecial ::= regaloespecial PEPPERMINT regalo
-               | regalo
-
-regaloespecial ::= regaloespecial WUNORSE regalo
-               | regalo
-
-regaloespecial ::= regalo
-
-regalomanual ::= MELCHOR regalomanual
-             | GASPAR regalomanual
-             | BALTASAR regalo
-             | regalo
-
-regalomanual ::= ABRECUENTO regalo CIERRECUENTO
-             | ABREEMPAQUE regalo CIERREEMPAQUE
-             | ABREREGALO regalo CIERRAREGALO
-
-regaloespecial ::= ELFO regalo HADA regalo DUENDE regalo
-               | ENVUELVE regalo HACE regalo REVISA regalo ENVIA regalo CORTA regalo
-
-regaloespecial ::= NARRA regalo
-               | ESCUCHA regalo
-
-regalo ::= FINREGALO
-
-regaloespecial ::= COMA regalo
-
-regaloespecial ::= ENTREGA regalo
-
-regalo ::= MAIN regalo
-         | REGALO regalo
+regalo ::= regaloprin // aritméticas (sumas, restas, etc)✅
+         | regalocomprado // expresiones relacionales (menor, mayor, etc) ✅
+         | regalomanual // expresiones lógicas (and, or, etc) ✅
+         | regalopersonalizado // expresiones unarias (incremento, decremento, etc)✅
+         | regaloespecial // expresiones de asignacion (asignacion, etc)✅
+         | MAIN regalo
+         | FUNCTION regalo
          | PERSONA regalo
          | SANTACLAUS regalo
          | PERENOEL regalo
@@ -197,10 +144,53 @@ regalo ::= MAIN regalo
          | L_KRISKRINGLE regalo
          | L_DEDMOROZ regalo
          | L_PAPANOEL regalo
+         | ABRECUENTO regalo CIERRECUENTO // (expr)
+         | ABREEMPAQUE regalo CIERREEMPAQUE // [expr]
+         | ABREREGALO regalo CIERRAREGALO // {expr}
+         | ABRECUENTO CIERRECUENTO // ()
+         | ABREEMPAQUE CIERREEMPAQUE // []
+         | ABREREGALO CIERRAREGALO // {}
+         | ENVIA regalo // return expr
          | copodenieve
 
-copodenieve ::= REGALO
-         | PERSONA
+// aritméticas (sumas, restas, etc)
+regaloprin ::= regaloprin RUDOLPH regalo // +
+            | regaloprin DASHER regalo // -
+            | regaloprin DANCER regalo // /
+            | regalo PRANCER regalo // //
+            | regalo VIXEN regalo // *
+            | regalo COMET regalo // ~
+            | regalo CUPID regalo // **
+            | regalocomprado
+
+regalocomprado ::= regalo Hermey regalo // <
+              | regalo BUDDY regalo // <=
+              | regalo JINGLE regalo // >
+              | regalo JANGLE regalo // >=
+              | regalo PEPPERMINT regalo // ==
+              | regalo WUNORSE regalo // !=
+              | regalomanual
+
+regalomanual ::= regalo MELCHOR regalomanual // expr and expr
+              | regalo GASPAR regalomanual // expr or expr
+              | BALTASAR regalo // !expr
+              | regalopersonalizado
+              | regalo
+
+regalopersonalizado ::= GRINCH regaloespecial // ++
+                    | QUIEN regaloespecial // --
+                    | regaloespecial
+
+regaloespecial ::= ELFO regalo HADA regalo DUENDE regalo // if expr else expr
+              | ENVUELVE regalo HACE regalo REVISA regalo ENVIA regalo CORTA regalo // for expr do expr until expr return expr break expr
+              | NARRA regalo // print expr
+              | ESCUCHA regalo // read expr
+              | COMA regalo // ,
+              | ENTREGA regalo // <= expr
+              | regalo
+
+// Independientes
+copodenieve ::= PERSONA
          | SANTACLAUS
          | PERENOEL
          | FATHERCHRISTMAS
@@ -213,8 +203,4 @@ copodenieve ::= REGALO
          | L_KRISKRINGLE
          | L_DEDMOROZ
          | L_PAPANOEL
-
-
-regalo ::= ABRECUENTO regalo CIERRECUENTO
-         | ABREEMPAQUE regalo CIERREEMPAQUE
-         | ABREREGALO regalo CIERRAREGALO
+         | FINREGALO
