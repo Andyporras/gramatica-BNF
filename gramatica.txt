@@ -181,13 +181,7 @@ regalopersonalizado ::= GRINCH regaloespecial // ++
                     | QUIEN regaloespecial // --
                     | regaloespecial
 
-regaloespecial ::= ELFO regalo HADA regalo DUENDE regalo // if expr else expr
-              | ENVUELVE regalo HACE regalo REVISA regalo ENVIA regalo CORTA regalo // for expr do expr until expr return expr break expr
-              | NARRA regalo // print expr
-              | ESCUCHA regalo // read expr
-              | COMA regalo // ,
-              | ENTREGA regalo // <= expr
-              | regalo
+
 
 // Independientes
 copodenieve ::= PERSONA
@@ -204,3 +198,41 @@ copodenieve ::= PERSONA
          | L_DEDMOROZ
          | L_PAPANOEL
          | FINREGALO
+
+// { ABREREGALO regalo CIERRAREGALO } | { ABREREGALO CIERRAREGALO } | { } | { regalo }
+/* Producción para bloques de código */
+bloque ::= ABREREGALO sentencias CIERRAREGALO 
+         | ABREREGALO CIERRAREGALO
+
+/* Producción para sentencias */
+sentencias ::= sentencia 
+             | sentencias sentencia
+
+//  
+sentencia ::= local IDENTIFIER tipo FINREGALO // declaración de variables
+            | IDENTIFIER '<=' regalo FINREGALO // asignación
+            | regalo FINREGALO // expresión
+            | if_statement // estructura de control if-elif-else
+            | do_until_statement // estructura de control do-until
+            | for_statement // estructura de control for
+            | break_statement       
+
+/* Producción para estructuras de control if-elif-else */
+regaloespecial ::= ELFO '(' regalo ')' bloque
+               | ELFO '(' regalo ')' bloque HADA bloque
+               | ELFO '(' regalo ')' bloque HADA bloque DUENDE bloque
+
+/* Producción para estructuras de control do-until */
+do_until_statement ::= HACE bloque REVISA '(' regalo ')' FINREGALO
+
+/* Producción para estructuras de control for */
+for_statement ::= ENVUELVE '(' sentencia regalo FINREGALO regalo FINREGALO sentencia ')' bloque
+
+/* Producción para estructuras de control break */
+break_statement ::= CORTA FINREGALO
+
+/* Producción para la función principal */
+main_function ::= MAIN bloque
+
+/* Producción para el símbolo inicial */
+navidad ::= main_function
