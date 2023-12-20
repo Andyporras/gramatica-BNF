@@ -91,6 +91,9 @@ non terminal regalomanual; // produccion para expresiones lógicas
 
 non terminal regalopersonalizado; // produccion para expresiones unarias
 non terminal regaloespecial; // produccion para expresiones de asignacion
+non terminal copodenieve; // produccion para expresiones independientes
+non terminal sentencias; // produccion para sentencias
+non terminal sentencia; // produccion para sentencias
 
 
 
