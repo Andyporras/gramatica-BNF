@@ -206,20 +206,16 @@ sentencias ::= sentencia
 
 //  
 sentencia ::= local IDENTIFIER tipo FINREGALO // declaración de variables
-            | IDENTIFIER '<=' regalo FINREGALO // asignación
             | regalo FINREGALO // expresión
-            | if_statement // estructura de control if-elif-else
-            | do_until_statement // estructura de control do-until
-            | for_statement // estructura de control for
-            | break_statement       
+            | regaloespecial       
 
 /* Producción para estructuras de control if-elif-else, print, read Y COMA */
-regaloespecial ::= ELFO '(' regalo ')' bloque
-               | ELFO '(' regalo ')' bloque HADA bloque
-               | ELFO '(' regalo ')' bloque HADA bloque DUENDE bloque
+regaloespecial ::= ELFO '(' regalo ')' regalo // if
+               | ELFO '(' regalo ')' regalo HADA regalo // if-else
+               | ELFO '(' regalo ')' regalo HADA regalo DUENDE regalo // if-elif-else
                | NARRA regalo // print expr
                | ESCUCHA regalo // read expr
-               | COMA regalo // expr, expr
+               | COMA regalo // ,
                | ENTREGA regalo // <= expr
                | regalo
 
