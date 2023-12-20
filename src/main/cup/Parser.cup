@@ -95,17 +95,17 @@ terminal Integer MAIN; //main
 terminal Integer FUNCTION; // definicion de funcion 
 
 //-------------------------------------------------------------------------------------- NO Terminales
-non terminal navidad; // Símbolo inicial
-non terminal bolsanavidena; // produccion para funciones
+non terminal navidad; // Símbolo inicial ✅
+non terminal bolsanavidena; // produccion para funciones ✅
 non terminal regalo; // produccion para expresiones
-non terminal regaloprin; // produccion para expresiones aritméticas
+non terminal regaloprin; // produccion para expresiones aritméticas ✅
 non terminal regalocomprado; // produccion para expresiones relacionales
-non terminal regalomanual; // produccion para expresiones lógicas
-
-non terminal regalopersonalizado; // produccion para expresiones unarias
-non terminal regaloespecial; // produccion para expresiones de asignacion
-//non terminal copodenieve;
-non terminal sentencia;
+non terminal regalomanual; // produccion para expresiones lógicas ✅
+non terminal regalopersonalizado; // produccion para expresiones unarias ✅
+non terminal regaloespecial; // produccion para expresiones de asignacion y ciclos✅
+non terminal regaloscondicionales; // produccion para if-elif-else ✅
+non terminal condicionregalo; // produccion para condicion ✅
+non terminal bloqueregalado; // produccion para bloque ✅
 
 
 
@@ -143,7 +143,8 @@ regalo ::= regaloprin // aritméticas (sumas, restas, etc)✅
          | regalocomprado // expresiones relacionales (menor, mayor, etc) ✅
          | regalomanual // expresiones lógicas (and, or, etc) ✅
          | regalopersonalizado // expresiones unarias (incremento, decremento, etc)✅
-         | regaloespecial // expresiones de asignacion (asignacion, etc)✅
+         | regaloespecial // expresiones de asignacion y ciclos✅
+         | regaloscondicionales // producción para if-elif-else recursivo
          | MAIN regalo
          | FUNCTION regalo
          | PERSONA regalo
@@ -159,6 +160,7 @@ regalo ::= regaloprin // aritméticas (sumas, restas, etc)✅
          | L_KRISKRINGLE regalo
          | L_DEDMOROZ regalo
          | L_PAPANOEL regalo
+         | regalo FINREGALO // | (fin de expresión)
          | ABRECUENTO regalo CIERRECUENTO // (expr)
          | ABREEMPAQUE regalo CIERREEMPAQUE // [expr]
          | ABREREGALO regalo CIERRAREGALO // {expr}
@@ -176,6 +178,7 @@ regaloprin ::= RUDOLPH regalo // +
             | COMET regalo // ~
             | CUPID regalo; // **
 
+// expresiones relacionales (menor, mayor, etc)
 regalocomprado ::= regalo HERMEY regalo // <
               | regalo BUDDY regalo // =<
               | regalo JINGLE regalo // >
@@ -183,24 +186,28 @@ regalocomprado ::= regalo HERMEY regalo // <
               | regalo PEPPERMINT regalo // ==
               | regalo WUNORSE regalo; // !=
 
-regalomanual ::= regalo MELCHOR regalo // expr and expr
-              | regalo GASPAR regalo // expr or expr
+// expresiones lógicas (and, or, etc)
+regalomanual ::= regalo MELCHOR regalo // expr ^ expr
+              | regalo GASPAR regalo // expr # expr
               | BALTASAR regalo; // !expr
 
-regalopersonalizado ::= GRINCH regaloespecial // ++
-                    | QUIEN regaloespecial; // --
+// expresiones unarias (incremento, decremento, etc)
+regalopersonalizado ::= GRINCH regalo // ++
+                    | QUIEN regalo; // --
 
-sentencia ::= LOCAL PERSONA regalo // declaración de variables
-            | regalo FINREGALO; // expresión   
 
-/* Producción para estructuras de control if-elif-else, print, read Y COMA */
-regaloespecial ::= ELFO ABRECUENTO regalo CIERRECUENTO regalo // if
-               | ELFO ABRECUENTO regalo CIERRECUENTO regalo HADA regalo // if-else
-               | ELFO ABRECUENTO regalo CIERRECUENTO regalo HADA regalo DUENDE regalo // if-elif-else
-               | NARRA regalo // print expr
+regaloespecial ::= NARRA regalo // print expr
                | ESCUCHA regalo // read expr
-               | COMA regalo // ,
-               | ENTREGA regalo // <= expr
-               | HACE regalo REVISA ABRECUENTO regalo CIERRECUENTO FINREGALO
-               | ENVUELVE ABRECUENTO sentencia regalo FINREGALO regalo FINREGALO sentencia CIERRECUENTO regalo
-               | CORTA regalo;
+               | regalo COMA regalo // expr, expr
+               | LOCAL PERSONA ENTREGA regalo // local identificador <= expr
+               | HACE bloqueregalado REVISA condicionregalo FINREGALO// do bloque while condicion
+               | ENVUELVE condicionregalo bloqueregalado // for condicion bloque
+               | CORTA regalo; // break
+
+// if-elif-else
+regaloscondicionales ::= ELFO condicionregalo bloqueregalado // if condicion bloque
+                | regaloscondicionales HADA condicionregalo bloqueregalado // elif condicion bloque
+                | regaloscondicionales DUENDE bloqueregalado; // else bloque
+
+condicionregalo ::= ABRECUENTO L_FATHERCHRISTMAS CIERRECUENTO;
+bloqueregalado ::= ABREREGALO regalo CIERRAREGALO;
