@@ -199,10 +199,6 @@ copodenieve ::= PERSONA
          | L_PAPANOEL
          | FINREGALO
 
-// { ABREREGALO regalo CIERRAREGALO } | { ABREREGALO CIERRAREGALO } | { } | { regalo }
-/* Producción para bloques de código */
-bloque ::= ABREREGALO sentencias CIERRAREGALO 
-         | ABREREGALO CIERRAREGALO
 
 /* Producción para sentencias */
 sentencias ::= sentencia 
@@ -217,22 +213,24 @@ sentencia ::= local IDENTIFIER tipo FINREGALO // declaración de variables
             | for_statement // estructura de control for
             | break_statement       
 
-/* Producción para estructuras de control if-elif-else */
+/* Producción para estructuras de control if-elif-else, print, read Y COMA */
 regaloespecial ::= ELFO '(' regalo ')' bloque
                | ELFO '(' regalo ')' bloque HADA bloque
                | ELFO '(' regalo ')' bloque HADA bloque DUENDE bloque
+               | NARRA regalo // print expr
+               | ESCUCHA regalo // read expr
+               | COMA regalo // expr, expr
+               | ENTREGA regalo // <= expr
+               | regalo
+
 
 /* Producción para estructuras de control do-until */
-do_until_statement ::= HACE bloque REVISA '(' regalo ')' FINREGALO
+regaloespecial ::= HACE REGALO REVISA '(' regalo ')' FINREGALO
 
 /* Producción para estructuras de control for */
-for_statement ::= ENVUELVE '(' sentencia regalo FINREGALO regalo FINREGALO sentencia ')' bloque
+regaloespecial ::= ENVUELVE '(' sentencia regalo FINREGALO regalo FINREGALO sentencia ')' REGALO
 
 /* Producción para estructuras de control break */
-break_statement ::= CORTA FINREGALO
+regaloespecial ::= CORTA REGALO
 
-/* Producción para la función principal */
-main_function ::= MAIN bloque
 
-/* Producción para el símbolo inicial */
-navidad ::= main_function
