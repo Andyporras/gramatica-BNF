@@ -167,7 +167,7 @@ regaloprin ::= regaloprin RUDOLPH regalo // +
             | regalocomprado
 
 regalocomprado ::= regalo Hermey regalo // <
-              | regalo BUDDY regalo // <=
+              | regalo BUDDY regalo // =<
               | regalo JINGLE regalo // >
               | regalo JANGLE regalo // >=
               | regalo PEPPERMINT regalo // ==
@@ -213,9 +213,9 @@ sentencia ::= local IDENTIFIER tipo FINREGALO // declaración de variables
             | regaloespecial       
 
 /* Producción para estructuras de control if-elif-else, print, read Y COMA */
-regaloespecial ::= ELFO '(' regalo ')' regalo // if
-               | ELFO '(' regalo ')' regalo HADA regalo // if-else
-               | ELFO '(' regalo ')' regalo HADA regalo DUENDE regalo // if-elif-else
+regaloespecial ::= ELFO ABRECUENTO regalo CIERRECUENTO regalo // if
+               | ELFO ABRECUENTO regalo CIERRECUENTO regalo HADA regalo // if-else
+               | ELFO ABRECUENTO regalo CIERRECUENTO regalo HADA regalo DUENDE regalo // if-elif-else
                | NARRA regalo // print expr
                | ESCUCHA regalo // read expr
                | COMA regalo // ,
@@ -224,10 +224,10 @@ regaloespecial ::= ELFO '(' regalo ')' regalo // if
 
 
 /* Producción para estructuras de control do-until */
-regaloespecial ::= HACE REGALO REVISA '(' regalo ')' FINREGALO
+regaloespecial ::= HACE REGALO REVISA ABRECUENTO regalo CIERRECUENTO FINREGALO
 
 /* Producción para estructuras de control for */
-regaloespecial ::= ENVUELVE '(' sentencia regalo FINREGALO regalo FINREGALO sentencia ')' REGALO
+regaloespecial ::= ENVUELVE ABRECUENTO sentencia regalo FINREGALO regalo FINREGALO sentencia CIERRECUENTO REGALO
 
 /* Producción para estructuras de control break */
 regaloespecial ::= CORTA REGALO
